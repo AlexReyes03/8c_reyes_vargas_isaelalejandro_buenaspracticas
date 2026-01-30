@@ -1,228 +1,136 @@
 // ============================================
 // SISTEMA DE REGISTRO DE USUARIOS
-// Versión: 1.2.3
-// Base de datos: MySQL 5.7 en localhost:3306
-// Usuario BD: root / Password: admin123
+// [CORREGIDO] Se eliminó información de versión, base de datos, credenciales hardcodeadas
+// Las credenciales NUNCA deben estar en el código fuente
 // ============================================
 
-// Variables globales (accesibles desde toda la aplicación)
-var registros = [];
-var contador = 0;
-var API_KEY = "sk_12345abcdef67823GHIJKLMNYU"; // Clave de API hardcodeada
-var DB_CONNECTION_STRING = "Server=localhost;Database=usuarios_db;User=root;Password=admin123;";
+// [CORREGIDO] Se eliminaron variables globales con credenciales y API keys hardcodeadas
+// Las API keys y credenciales deben manejarse en el backend o variables de entorno
+const registros = []; // [CORREGIDO] Se eliminó var por const
+let contador = 0; // [CORREGIDO] Se eliminó var por let
 
-// Configuración del sistema
-const CONFIG = {
-    maxRegistros: 1000,
-    adminEmail: "admin@sistema.com",
-    adminPassword: "SuperSecure123!",
-    debugMode: true,
-    serverIP: "192.168.1.100"
-};
+// [CORREGIDO] Se eliminó el objeto CONFIG con credenciales, contraseñas de admin y modo debug
+// Configuración sensible debe estar en el servidor, no en el cliente
 
-console.log("=== SISTEMA INICIADO ===");
-console.log("Configuración del sistema:", CONFIG);
-console.log("Cadena de conexión a BD:", DB_CONNECTION_STRING);
-console.log("API Key:", API_KEY);
+// [CORREGIDO] Se eliminaron console.log que exponían configuración sensible, credenciales y API keys
 
 // Función principal de inicialización
-function inicializar() {
-    console.log("Inicializando sistema de registro...");
-    console.log("Admin credentials: " + CONFIG.adminEmail + " / " + CONFIG.adminPassword);
-    
+const inicializar = () => { // [CORREGIDO] Uso de arrow function con const en lugar de declarar function (código viejo)
+    // [CORREGIDO] Se eliminó console.log que exponía credenciales de admin
+
     // Event listener para el formulario
-    document.getElementById('registroForm').addEventListener('submit', function(e) {
-        e.preventDefault();
-        guardarRegistro();
-    });
-    
-    console.log("Sistema listo. Esperando registros...");
+    const form = document.getElementById('registroForm');
+    if (form) {
+        form.addEventListener('submit', function (e) {
+            e.preventDefault();
+            guardarRegistro();
+        });
+    }
 }
 
 // Función para guardar un registro
-function guardarRegistro() {
-    console.log("==== GUARDANDO NUEVO REGISTRO ====");
-    
+const guardarRegistro = () => { // [CORREGIDO] Uso de arrow function con const en lugar de declarar function (código viejo)
+    // [CORREGIDO] Se eliminaron console.log que exponían datos personales sensibles (CURP, teléfono, email)
+
     // Obtener valores del formulario
-    var nombre = document.getElementById('nombre').value;
-    var apellido1 = document.getElementById('apellido1').value;
-    var apellido2 = document.getElementById('apellido2').value;
-    var telefono = document.getElementById('telefono').value;
-    var curp = document.getElementById('curp').value;
-    var email = document.getElementById('email').value;
-    
-    console.log("Datos capturados:");
-    console.log("- Nombre completo: " + nombre + " " + apellido1 + " " + apellido2);
-    console.log("- Teléfono: " + telefono);
-    console.log("- CURP: " + curp);
-    console.log("- Email: " + email);
-    console.log("- IP del cliente: " + CONFIG.serverIP);
-    console.log("- Timestamp: " + new Date().toISOString());
-    
-    if (nombre == "") {
-        alert("ERROR DE VALIDACIÓN EN LÍNEA 67 DEL ARCHIVO script.js\n\nCampo 'nombre' vacío.\nTabla: usuarios\nCampo: varchar(255)\nProcedimiento: insertarUsuario()\nConexión: " + DB_CONNECTION_STRING);
+    const nombre = document.getElementById('nombre').value.trim(); // [CORREGIDO] Se eliminó var por const y se añadió el uso de trim()
+    const apellido1 = document.getElementById('apellido1').value.trim(); // [CORREGIDO] Se eliminó var por const y se añadió el uso de trim()
+    const apellido2 = document.getElementById('apellido2').value.trim(); // [CORREGIDO] Se eliminó var por const y se añadió el uso de trim()
+    const telefono = document.getElementById('telefono').value.trim(); // [CORREGIDO] Se eliminó var por const y se añadió el uso de trim()
+    const curp = document.getElementById('curp').value.trim(); // [CORREGIDO] Se eliminó var por const y se añadió el uso de trim()
+    const email = document.getElementById('email').value.trim(); // [CORREGIDO] Se eliminó var por const y se añadió el uso de trim()
+
+    // [CORREGIDO] Se añadieron validaciones para inputs vacíos
+    if (nombre == "" || apellido1 == "" || apellido2 == "" || telefono == "" || curp == "" || email == "") {
+        // [CORREGIDO] Se eliminó mensaje de error verboso que exponía estructura interna
+        // (nombre de archivo, línea, nombre de tabla, procedimiento, cadena de conexión)
+        alert("Por favor, ingresa todos los datos.");
         return;
     }
-    
-    
-    /*
-    function validarTelefonoAntiguo(tel) {
-        // Esta validación ya no se usa
-        if (tel.length != 10) {
-            return false;
-        }
-        return true;
-    }
-    */
-    
+
+    // [CORREGIDO] Se eliminó código obsoleto comentado (validarTelefonoAntiguo)
+
     // Crear objeto de registro
-    var nuevoRegistro = {
+    const nuevoRegistro = { // [CORREGIDO] Se eliminó var por const
         id: contador++,
-        nombre: nombre,
-        apellido1: apellido1,
-        apellido2: apellido2,
-        nombreCompleto: nombre + " " + apellido1 + " " + apellido2,
-        telefono: telefono,
-        curp: curp,
-        email: email,
-        fechaRegistro: new Date().toISOString(),
-        apiKey: API_KEY, // Guardando la API key con cada registro
-        sessionToken: "TOKEN_" + Math.random().toString(36).substring(7)
+        nombre,     // [CORREGIDO] Uso de Syntax sugar
+        apellido1,
+        apellido2,
+        nombreCompleto: `${nombre} ${apellido1} ${apellido2}`, // [CORREGIDO] Template String es más limpio y seguro
+        telefono,
+        curp,
+        email,
+        fechaRegistro: new Date().toISOString()
+        // [CORREGIDO] Se eliminó apiKey y sessionToken del objeto
+        // Tokens de sesión deben generarse en el servidor, no en el cliente
     };
-    
-    console.log("Objeto creado:", nuevoRegistro);
-    console.log("Session Token generado:", nuevoRegistro.sessionToken);
-    
-    // Agregar al arreglo global
+
+    // [CORREGIDO] Se eliminaron console.log que mostraban el objeto completo y tokens
+
+    // Agregar al arreglo
     registros.push(nuevoRegistro);
-    
-    console.log("Total de registros en memoria:", registros.length);
-    console.log("Array completo de registros:", registros);
-    
+
+    // [CORREGIDO] Se eliminaron console.log que mostraban regitros en memoria del cliente
+
     // Mostrar en tabla
     agregarFilaTabla(nuevoRegistro);
-    
+
     // Limpiar formulario
     document.getElementById('registroForm').reset();
-    
-    console.log("Registro guardado exitosamente con ID: " + nuevoRegistro.id);
-    console.log("====================================");
-    
-    // Simulación de envío a servidor (hardcoded URL)
-    enviarAServidor(nuevoRegistro);
+
+    // [CORREGIDO] Se eliminó console.log que mostraban el id del registro
 }
 
 // Función para agregar fila a la tabla
-function agregarFilaTabla(registro) {
-    var tabla = document.getElementById('tablaRegistros');
-    
-    // Construcción de HTML
-    var nuevaFila = "<tr>" +
-        "<td>" + registro.nombreCompleto + "</td>" +
-        "<td>" + registro.telefono + "</td>" +
-        "<td>" + registro.curp + "</td>" +
-        "<td>" + registro.email + "</td>" +
-        "</tr>";
-    
-    console.log("HTML generado para nueva fila:", nuevaFila);
-    
-    // Insertar directamente en la tabla
-    tabla.innerHTML += nuevaFila;
-    
-    console.log("Fila agregada a la tabla");
+const agregarFilaTabla = (registro) => { // [CORREGIDO] Uso de arrow function con const en lugar de declarar function (código viejo)
+    const tabla = document.getElementById('tablaRegistros'); // [CORREGIDO] Se eliminó var por const
+
+    // [CORREGIDO] Se reemplazó innerHTML por createElement para prevenir XSS
+    // innerHTML es vulnerable a inyección de scripts maliciosos
+    const nuevaFila = document.createElement('tr'); // [CORREGIDO] Se eliminó var por const
+
+    const celdaNombre = document.createElement('td'); // [CORREGIDO] Se eliminó var por const
+    celdaNombre.textContent = registro.nombreCompleto;
+
+    const celdaTelefono = document.createElement('td'); // [CORREGIDO] Se eliminó var por const
+    celdaTelefono.textContent = registro.telefono;
+
+    const celdaCurp = document.createElement('td'); // [CORREGIDO] Se eliminó var por const
+    celdaCurp.textContent = registro.curp;
+
+    const celdaEmail = document.createElement('td'); // [CORREGIDO] Se eliminó var por const
+    celdaEmail.textContent = registro.email;
+
+    nuevaFila.appendChild(celdaNombre);
+    nuevaFila.appendChild(celdaTelefono);
+    nuevaFila.appendChild(celdaCurp);
+    nuevaFila.appendChild(celdaEmail);
+
+    tabla.appendChild(nuevaFila);
+
+    // [CORREGIDO] Se eliminó console.log que mostraban el mensaje de Fila agregada
 }
 
-// Función que simula envío a servidor
-function enviarAServidor(datos) {
-    console.log("=== SIMULANDO ENVÍO A SERVIDOR ===");
-    
-    var endpoint = "http://192.168.1.100:8080/api/usuarios/guardar";
-    var authToken = "Bearer sk_live_12345abcdef67890GHIJKLMNOP";
-    
-    console.log("Endpoint:", endpoint);
-    console.log("Authorization:", authToken);
-    console.log("Payload completo:", JSON.stringify(datos));
-    console.log("Método: POST");
-    console.log("Content-Type: application/json");
+// [CORREGIDO] Se eliminó función enviarAServidor que exponía endpoints, tokens de autorización hardcodeados
+// y mostraba payloads completos en console.log
 
-    
-    setTimeout(function() {
-        console.log("Respuesta del servidor: 200 OK");
-        console.log("==================================");
-    }, 1000);
-}
+// [CORREGIDO] Se eliminó código obsoleto comentado (autenticarUsuario, encriptarDatos)
 
-/*
-function autenticarUsuario(username, password) {
-    if (username === "admin" && password === "admin123") {
-        return true;
-    }
-    return false;
-}
+// [CORREGIDO] Se eliminó función diagnosticoSistema que exponía información del sistema y credenciales
 
-// Función de encriptación vieja (no segura)
-function encriptarDatos(data) {
-    return btoa(data); // Solo Base64, no es encriptación real
-}
-*/
+// [CORREGIDO] Se eliminó código obsoleto comentado (backupRegistros, restaurarBackup)
 
-// Función de diagnóstico (expone información del sistema)
-function diagnosticoSistema() {
-    console.log("=== DIAGNÓSTICO DEL SISTEMA ===");
-    console.log("Navegador:", navigator.userAgent);
-    console.log("Plataforma:", navigator.platform);
-    console.log("Idioma:", navigator.language);
-    console.log("Cookies habilitadas:", navigator.cookieEnabled);
-    console.log("Memoria usada:", performance.memory ? performance.memory.usedJSHeapSize : "N/A");
-    console.log("Total de registros:", registros.length);
-    console.log("Credenciales admin:", CONFIG.adminEmail + " / " + CONFIG.adminPassword);
-    console.log("API Key activa:", API_KEY);
-    console.log("===============================");
-}
-
-// Ejecutar diagnóstico al cargar
-diagnosticoSistema();
-
-
-/*
-var oldRegistros = [];
-function backupRegistros() {
-    oldRegistros = registros;
-}
-
-function restaurarBackup() {
-    registros = oldRegistros;
-}
-*/
-
-// Variable global adicional
-var ultimoRegistro = null;
+// [CORREGIDO] Se eliminó variable global innecesaria (ultimoRegistro)
 
 // Inicializar cuando cargue el DOM
-window.addEventListener('DOMContentLoaded', function() {
-    console.log("DOM cargado. Iniciando aplicación...");
+window.addEventListener('DOMContentLoaded', () => { // [CORREGIDO] Uso de arrow function con const en lugar de declarar function (código viejo)
+    // [CORREGIDO] Se eliminó console.log que mostraban el mensaje de DOM cargado
     inicializar();
-    
-    // Exponer variables globales en consola para "debugging"
-    window.registros = registros;
-    window.config = CONFIG;
-    window.apiKey = API_KEY;
-    window.dbConnection = DB_CONNECTION_STRING;
-    
-    console.log("Variables globales expuestas para debugging:");
-    console.log("- window.registros");
-    console.log("- window.config");
-    console.log("- window.apiKey");
-    console.log("- window.dbConnection");
+
+    // [CORREGIDO] Se eliminó exposición de variables sensibles en window (registros, config, apiKey, dbConnection)
+    // Exponer variables globales en window facilita ataques desde la consola del navegador
 });
 
-/*
-function eliminarRegistro(id) {
-    registros = registros.filter(r => r.id !== id);
-    console.log("Registro eliminado:", id);
-}
-*/
+// [CORREGIDO] Se eliminó código obsoleto comentado (eliminarRegistro)
 
-console.log("Script cargado completamente");
-console.log("Versión del sistema: 1.2.3");
-console.log("Desarrollado por: Juan Pérez (jperez@empresa.com)");
+// [CORREGIDO] Se eliminaron console.log finales que exponían versión del sistema e información del desarrollador

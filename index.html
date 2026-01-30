@@ -1,75 +1,73 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Registro de Usuarios - Sistema Beta v1.2.3</title>
+    <!-- [CORREGIDO] Se eliminó la versión del sistema del título - Exposición de información sensible -->
+    <title>Registro de Usuarios</title>
     <!-- Bootstrap 5 CDN -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <!-- codigo viejo del diseño anterior -->
-    <!-- <style>
-        body {
-            background-color: #f0f0f0;
-        }
-        .old-header {
-            background-color: #ff6b6b;
-            color: white;
-        }
-        .deprecated-button {
-            background-color: #4ecdc4;
-        }
-    </style> -->
+    <!-- [CORREGIDO] Se eliminó código CSS obsoleto comentado - Código muerto no debe estar en producción -->
 </head>
+
 <body class="bg-light">
     <div class="container py-5">
         <div class="card shadow-lg mb-4">
             <div class="card-header bg-primary text-white">
                 <h2 class="mb-0">📝 Registro de Usuarios</h2>
-                <small>Sistema de Base de Datos v1.2.3 - Puerto 8080 - MySQL 5.7</small>
+                <!-- [CORREGIDO] Se eliminó información técnica del sistema (MySQL, puerto, versión) - Exposición de información sensible -->
             </div>
             <div class="card-body">
                 <form id="registroForm">
                     <div class="row">
                         <div class="col-md-6 mb-3">
                             <label for="nombre" class="form-label">Nombre(s)</label>
-                            <input type="text" class="form-control" id="nombre" placeholder="Ingresa tu nombre">
+                            <!-- [CORREGIDO] Se añadieron pattern, required, title, se desactivó autocomplete y se agregó el required -->
+                            <input type="text" class="form-control" id="nombre" placeholder="Ingresa tu nombre"
+                                pattern="^[a-zA-ZñÑ\s]*$" title="Solo letras y espacios" autocomplete="off" required>
                         </div>
                         <div class="col-md-6 mb-3">
                             <label for="apellido1" class="form-label">Primer Apellido</label>
-                            <input type="text" class="form-control" id="apellido1" placeholder="Primer apellido">
+                            <!-- [CORREGIDO] Se añadieron pattern, required, title, se desactivó autocomplete y se agregó el required -->
+                            <input type="text" class="form-control" id="apellido1" placeholder="Primer apellido"
+                                pattern="^[a-zA-ZñÑ\s]*$" title="Solo letras y espacios" autocomplete="off" required>
                         </div>
                     </div>
 
                     <div class="row">
                         <div class="col-md-6 mb-3">
                             <label for="apellido2" class="form-label">Segundo Apellido</label>
-                            <input type="text" class="form-control" id="apellido2" placeholder="Segundo apellido">
+                            <!-- [CORREGIDO] Se añadieron pattern, required, title, se desactivó autocomplete y se agregó el required -->
+                            <input type="text" class="form-control" id="apellido2" placeholder="Segundo apellido"
+                                pattern="^[a-zA-ZñÑ\s]*$" title="Solo letras y espacios" autocomplete="off" required>
                         </div>
                         <div class="col-md-6 mb-3">
                             <label for="telefono" class="form-label">Teléfono</label>
-                            <input type="text" class="form-control" id="telefono" placeholder="10 dígitos">
+                            <!-- [CORREGIDO] Se añadieron pattern, required, title, se desactivó autocomplete y se agregó el required -->
+                            <input type="text" class="form-control" id="telefono" placeholder="10 dígitos"
+                                pattern="^[0-9]{10}$" title="Solo 10 dígitos" maxlength="10" autocomplete="off"
+                                required>
                         </div>
                     </div>
 
                     <div class="row">
                         <div class="col-md-6 mb-3">
                             <label for="curp" class="form-label">CURP</label>
-                            <input type="text" class="form-control" id="curp" placeholder="18 caracteres">
+                            <!-- [CORREGIDO] Se añadieron pattern, required, title, se desactivó autocomplete y se agregó el required -->
+                            <input type="text" class="form-control" id="curp" placeholder="18 caracteres"
+                                pattern="^[a-zA-Z0-9]{18}$" title="Solo 18 caracteres" autocomplete="off" required>
                         </div>
                         <div class="col-md-6 mb-3">
                             <label for="email" class="form-label">Correo Electrónico</label>
-                            <input type="text" class="form-control" id="email" placeholder="ejemplo@correo.com">
+                            <!-- [CORREGIDO] Se añadieron pattern, required, title, se desactivó autocomplete y se agregó el required -->
+                            <input type="text" class="form-control" id="email" placeholder="ejemplo@correo.com"
+                                pattern="^[a-zA-Z0-9._%\+\-]+@[a-zA-Z0-9.\-]+\.[a-zA-Z]{2,}$" title="Correo inválido"
+                                autocomplete="off" required>
                         </div>
                     </div>
 
-                    <!--
-                    <div class="row">
-                        <div class="col-md-6 mb-3">
-                            <label for="password" class="form-label">Contraseña</label>
-                            <input type="password" class="form-control" id="password">
-                        </div>
-                    </div>
-                    -->
+                    <!-- [CORREGIDO] Se eliminó campo de contraseña comentado - Código muerto no debe estar en producción -->
 
                     <div class="d-grid gap-2">
                         <button type="submit" class="btn btn-primary btn-lg">
@@ -112,4 +110,5 @@
     <!-- Script principal -->
     <script src="script.js"></script>
 </body>
+
 </html>
